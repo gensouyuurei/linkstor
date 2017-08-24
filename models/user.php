@@ -14,6 +14,28 @@ class user{
         $this->priv = 'anon';
     }
 
+    public function id(){
+        return $this->id;
+    }
+    public function login(){
+        return $this->login;
+    }
+    public function email(){
+        return $this->email;
+    }
+    public function firstN(){
+        return $this->firstN;
+    }
+    public function lastN(){
+        return $this->lastN;
+    }
+    public function priv(){
+        return $this->priv;
+    }
+    public function is_active(){
+        return $this->active;
+    }
+
     public function log_in($log, $passw){
         try {
             $pdo = new PDO('mysql:host=localhost;dbname=linkstor', 'admin', 'pass');
@@ -25,8 +47,8 @@ class user{
         $query = "SELECT user_id, login, password FROM users";
         $check = $pdo->query($query);
 
-        $logincheck = false;
-        $passcheck = false;
+        //$logincheck = false;
+        //$passcheck = false;
         foreach ($check as $item){
             if ($item['login'] === $log){
                 $logincheck = true;
@@ -89,11 +111,11 @@ class user{
             $query = "INSERT INTO users VALUES (NULL, '$login', '$email', '$pass', '$first', '$last', 'user', FALSE)";
             $catch = $pdo->exec($query);
 
-            $hash = md5(rand(1, 10000));
+            //$hash = md5(rand(1, 10000));
             //$activation_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"."activate.php?=".$hash;
             //$activation_link = "test";
             //$mailcatch = mail($email, 'Activate your account\r\n', $activation_link, 'From: admin\r\n');
-            if (($catch != false) && ($mailcatch != false)){
+            if (($catch != false)/* && ($mailcatch != false)*/){
                 return 1;
             }
             else{

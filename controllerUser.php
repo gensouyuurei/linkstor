@@ -2,15 +2,11 @@
 require_once "models/user.php";
 session_start();
 
-$user = new user();
 
-if (isset($_GET['action'])) {
-    echo "first if ";
-    switch ($_GET['action']) {
-
+if (isset($uri['2'])) {
+    switch ($uri['2']) {
         case 'register':
             include 'views/register.html';
-            echo 'view ';
             if($_POST) {
                 $message = $user->register($_POST['login'], $_POST['email'], $_POST['pass'], $_POST['passRep'], $_POST['firstN'], $_POST['lastN']);
                 switch ($message) {
@@ -33,13 +29,13 @@ if (isset($_GET['action'])) {
                         echo "User with that login already exists!";
                         break;
                     case 1:
-                        header('Location: /index.php?action=login');
+                        header('Location: /user/login');
                 }
             }
             break;
 
         case 'login':
-            include 'views/viewLogin.html';
+            include 'views/login.html';
             if($_POST) {
                 $message = $user->log_in($_POST['login'], $_POST['password']);
                 switch ($message) {
