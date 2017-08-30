@@ -14,23 +14,20 @@ class user{
         $this->priv = 'anon';
     }
 
-    public function id(){
+    public function getId(){
         return $this->id;
     }
-    public function login(){
+    public function getLogin(){
         return $this->login;
     }
-    public function email(){
+    public function getEmail(){
         return $this->email;
     }
-    public function firstN(){
+    public function getFirstN(){
         return $this->firstN;
     }
-    public function lastN(){
+    public function getLastN(){
         return $this->lastN;
-    }
-    public function priv(){
-        return $this->priv;
     }
     public function is_active(){
         return $this->active;

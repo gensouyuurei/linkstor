@@ -1,7 +1,4 @@
 <?php
-require_once "models/user.php";
-session_start();
-
 
 if (isset($uri['2'])) {
     switch ($uri['2']) {
