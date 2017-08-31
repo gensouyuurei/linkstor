@@ -34,15 +34,9 @@ class user{
     }
 
     public function log_in($log, $passw){
-        try {
-            $pdo = new PDO('mysql:host=localhost;dbname=linkstor', 'admin', 'pass');
-        }
-        catch (PDOException $e){
-            return "dberrorcon";
-        }
 
         $query = "SELECT user_id, login, password FROM users";
-        $check = $pdo->query($query);
+        $check = $_SESSION['db']->query($query);
 
         //$logincheck = false;
         //$passcheck = false;
@@ -58,7 +52,7 @@ class user{
 
         if (($logincheck == true) && ($passcheck == true)){
             $query = "SELECT * FROM users WHERE user_id = $this->id";
-            $inp = $pdo->query($query);
+            $inp = $_SESSION['db']->query($query);
             $info = $inp->fetch();
 
             $this->login = $info['login'];

@@ -1,9 +1,22 @@
 <?php
-require_once "models/link.php";
-require_once "models/linklist.php";
-session_start();
-echo 'links ';
 
+class controllerLink{
+    public function mainpage(){
+        $links = new link();
+        $links->pull(1, 0);
+        print_r($links);
+        return;
+    }
+
+    public function userlinks(){
+        $links = new link();
+        $links->pull(5, 0, false);
+        print_r($links);
+        return;
+    }
+}
+
+/*
 switch ($uri['2']){
     case 'all':
         echo 'all';
@@ -16,7 +29,7 @@ switch ($uri['2']){
             $content = new link(1);
             $content = $content->get_by_id();
             include "views/mainpage.html";
-        }*/
+        }
         break;
     case 'my':
 
@@ -30,5 +43,5 @@ switch ($uri['2']){
     case 'delete':
 
         break;
-}
+}*/
 ?>

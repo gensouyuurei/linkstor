@@ -1,46 +1,21 @@
 <?php
 class link{
-    private $id;
-    private $usrID;
-    private $text;
-    private $date;
+    private $list;
 
-    public function __construct($usrID, $id=0, $text=0, $date=0){
-        if($id == 0) {
-            $this->usrID = $usrID;
-        }
-        else{
-            $this->id = $id;
-            $this->usrID = $usrID;
-            $this->text = $text;
-            $this->date = $date;
-        }
+    public function __construct(){
+        $this->list = array();
     }
 
-    public function id(){
-        return $this->id;
-    }
-    public function usrID(){
-        return $this->usrID;
-    }
-    public function text(){
-        return $this->text;
-    }
-    public function date(){
-        return $this->date;
+    public function get($locID, $field){
+        return $this->list[$locID][$field];
     }
 
     public function add($text){
-        try {
-            $pdo = new PDO('mysql:host=localhost;dbname=linkstor', 'admin', 'pass');
-        }
-        catch (PDOException $e){
-            return "dberrorcon";
-        }
 
         $dateadded = date("Y-m-d H:i:s");
-        $query = "INSERT INTO links VALUES (NULL, '$this->usrID', '$text','$dateadded')";
-        $catch = $pdo->exec($query);
+        $usrID = $_SESSION['user']->usrID;
+        $query = "INSERT INTO links VALUES (NULL, '$usrID', '$text','$dateadded')";
+        $catch = $_SESSION['db']->exec($query);
 
         if ($catch != false){
             return 1;
@@ -50,24 +25,21 @@ class link{
         }
     }
 
-    public function get_by_id($id){
-        try {
-            $pdo = new PDO('mysql:host=localhost;dbname=linkstor', 'admin', 'pass');
+    public function pull($quantity, $offset, $is_all=true){
+
+        $query = "SELECT * FROM links ";
+        if ($is_all == false){
+            $query = $query."WHERE user_id=".$_SESSION['user']->getId()." ";
         }
-        catch (PDOException $e){
-            return "dberrorcon";
+        $query = $query."ORDER BY date_added DESC LIMIT $offset, $quantity";
+        $rawdata = $_SESSION['db']->query($query);
+
+        $i = 1;
+        foreach ($rawdata as $item){
+            $this->list[$i] = $item;
+            $i++;
         }
-
-        $query = "SELECT * FROM links WHERE link_id=$id";
-        $get = $pdo->query($query);
-        $info = $get->fetch();
-
-        $this->id = $info['link_id'];
-        $this->usrID = $info['user_id'];
-        $this->text = $info['link'];
-        $this->date = $info['date_added'];
-
-        return ;
+        return;
     }
 }
 ?>
