@@ -73,12 +73,6 @@ class user{
     }
 
     public function register($login, $email, $pass, $passRep, $first, $last){
-        try {
-            $pdo = new PDO('mysql:host=localhost;dbname=linkstor', 'admin', 'pass');
-        }
-        catch (PDOException $e){
-            return "dberrorcon";
-        }
 
         if (!$email || !$login || !$first || !$last || !$pass ){
             return 'fields';
@@ -88,7 +82,7 @@ class user{
         }
         else {
             $query = "SELECT email, login FROM users";
-            $check = $pdo->query($query);
+            $check = $_SESSION['db']->query($query);
 
             foreach ($check as $item){
                 if($item['email'] === $email){
@@ -100,7 +94,7 @@ class user{
             }
 
             $query = "INSERT INTO users VALUES (NULL, '$login', '$email', '$pass', '$first', '$last', 'user', FALSE)";
-            $catch = $pdo->exec($query);
+            $catch = $_SESSION['db']->exec($query);
 
             //$hash = md5(rand(1, 10000));
             //$activation_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"."activate.php?=".$hash;
