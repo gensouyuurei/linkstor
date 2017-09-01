@@ -1,67 +1,43 @@
 <?php
 
 class user{
-    private $id;
-    private $login;
-    private $email;
-    private $pass;
-    private $firstN;
-    private $lastN;
-    private $priv;
-    private $active;
+
+    private $info;
+
 
     public function __construct(){
-        $this->priv = 'anon';
+        $this->info = array();
     }
 
-    public function getId(){
-        return $this->id;
+    public function getName($id){
+        $query = "SELECT first_name, last_name FROM users WHERE user_id=$id";
+        $rawinfo = $_SESSION['db']->query($query);
+        $this->info = $rawinfo->fetch();
+        return;
     }
-    public function getLogin(){
-        return $this->login;
-    }
-    public function getEmail(){
-        return $this->email;
-    }
-    public function getFirstN(){
-        return $this->firstN;
-    }
-    public function getLastN(){
-        return $this->lastN;
-    }
-    public function is_active(){
-        return $this->active;
+
+    public function getUserInfo($id){
+        $query = "SELECT * FROM users WHERE user_id=$id";
+        $rawinfo = $_SESSION['db']->query($query);
+        $this->info = $rawinfo->fetch();
+        return;
     }
 
     public function log_in($log, $passw){
 
         $query = "SELECT user_id, login, password FROM users";
         $check = $_SESSION['db']->query($query);
-
-        //$logincheck = false;
-        //$passcheck = false;
         foreach ($check as $item){
             if ($item['login'] === $log){
                 $logincheck = true;
                 if ($item['password'] === $passw){
                     $passcheck = true;
-                    $this->id = $item['user_id'];
+                    $_SESSION['user_id'] = $item['user_id'];
                 }
             }
         }
 
         if (($logincheck == true) && ($passcheck == true)){
-            $query = "SELECT * FROM users WHERE user_id = $this->id";
-            $inp = $_SESSION['db']->query($query);
-            $info = $inp->fetch();
-
-            $this->login = $info['login'];
-            $this->email = $info['email'];
-            $this->pass = $info['password'];
-            $this->firstN = $info['first_name'];
-            $this->lastN = $info['last_name'];
-            $this->priv = $info['privileges'];
-            $this->active = $info['is_active'];
             return 1;
         }
         elseif (($logincheck != true)){
@@ -96,11 +72,7 @@ class user{
             $query = "INSERT INTO users VALUES (NULL, '$login', '$email', '$pass', '$first', '$last', 'user', FALSE)";
             $catch = $_SESSION['db']->exec($query);
 
-            //$hash = md5(rand(1, 10000));
-            //$activation_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"."activate.php?=".$hash;
-            //$activation_link = "test";
-            //$mailcatch = mail($email, 'Activate your account\r\n', $activation_link, 'From: admin\r\n');
-            if (($catch != false)/* && ($mailcatch != false)*/){
+            if ($catch != false){
                 return 1;
             }
             else{

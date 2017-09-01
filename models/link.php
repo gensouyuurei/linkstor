@@ -1,6 +1,8 @@
 <?php
 class link{
+
     private $list;
+
 
     public function __construct(){
         $this->list = array();
@@ -8,6 +10,11 @@ class link{
 
     public function get($locID, $field){
         return $this->list[$locID][$field];
+    }
+
+    public function edit($text){
+        $this->list['link'] = $text;
+        return;
     }
 
     public function add($text){
@@ -40,6 +47,43 @@ class link{
             $i++;
         }
         return;
+    }
+
+    public function pullByID($id){
+
+        $query = "SELECT * FROM links WHERE link_id=$id";
+        $rawdata = $_SESSION['db']->query($query);
+
+        $this->list = $rawdata->fetch();
+
+        return;
+    }
+
+    public function update(){
+
+        $id = $this->list['link_id'];
+        $newtext = $this->list['link'];
+
+        $query = "UPDATE links SET link=$newtext WHERE link_id=$id";
+        $check = $_SESSION['db']->exec($query);
+        if ($check != false){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    }
+
+    public function delete($id){
+
+        $query = "DELETE FROM links WHERE link_id=$id";
+        $check = $_SESSION['db']->exec($query);
+        if ($check != false){
+            return 1;
+        }
+        else{
+            return 'dberror';
+        }
     }
 }
 ?>

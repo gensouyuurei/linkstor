@@ -16,8 +16,14 @@ class dispatcher{
         }
         else{
             if (is_callable($handler) == true) {
-                call_user_func($handler);
-                return;
+
+                if($req->getID() == 0) {
+                    call_user_func($handler);
+                    return;
+                }
+                else{
+                    call_user_func($handler, $req->getID());
+                }
             }
             else{
                 echo 'is not callable';
