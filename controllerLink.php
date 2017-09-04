@@ -3,6 +3,7 @@
 class controllerLink{
     public function mainpage(){
         include 'views/mainmenu.html';
+        print_r($_SESSION);
         $links = new link();
         $links->pull(5, 0);
         print_r($links);

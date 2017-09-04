@@ -5,6 +5,7 @@ $router = new router();
 $router->addRoute('', function (){ include 'views/startpage.html'; });
 $router->addRoute('login', 'controllerUser::login');
 $router->addRoute('register', 'controllerUser::register');
+$router->addRoute('account', 'controllerUser::edit');
 $router->addRoute('main', 'controllerLink::mainpage');
 $router->addRoute('my_links', 'controllerLink::userLinks');
 $router->addRoute('link', 'controllerLink::singlelink');

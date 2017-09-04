@@ -9,6 +9,15 @@ class user{
         $this->info = array();
     }
 
+    public function showField($field){
+        if (isset($this->info[$field])) {
+            return $this->info[$field];
+        }
+        else{
+            return 'error';
+        }
+    }
+
     public function getName($id){
         $query = "SELECT first_name, last_name FROM users WHERE user_id=$id";
         $rawinfo = $_SESSION['db']->query($query);
@@ -32,13 +41,13 @@ class user{
                 $logincheck = true;
                 if ($item['password'] === $passw){
                     $passcheck = true;
-                    $_SESSION['user_id'] = $item['user_id'];
+                    $id = $item['user_id'];
                 }
             }
         }
 
         if (($logincheck == true) && ($passcheck == true)){
-            return 1;
+            return $id;
         }
         elseif (($logincheck != true)){
             return 'inclogin';
@@ -78,6 +87,42 @@ class user{
             else{
                 return 'dberrorins';
             }
+        }
+    }
+
+    public function edit($new){
+
+        if (isset($new['login'])){
+            $this->info['login'] = $new['login'];
+        }
+        if (isset($new['first_name'])){
+            $this->info['first_name'] = $new['first_name'];
+        }
+        if (isset($new['last_name'])){
+            $this->info['last_name'] = $new['last_name'];
+        }
+        if (isset($new['email'])){
+            $this->info['email'] = $new['email'];
+        }
+        if (isset($new['password']) && ($new['password'] === $new['repeat_pass'])){
+            $this->info['password'] = $new['password'];
+        }
+    }
+
+    public function update(){
+        $query = "UPDATE users SET login=".$this->info['login'].
+            ", email=".$this->info['email'].
+            ", password=".$this->info['password'].
+            ", first_name=".$this->info['first_name'].
+            ", last_name=".$this->info['last_name'].
+            " WHERE user_id=".$this->info['user_id'];
+
+        $check = $_SESSION['db']->exec($query);
+        if ($check != false){
+            return 1;
+        }
+        else{
+            return 'error';
         }
     }
 }

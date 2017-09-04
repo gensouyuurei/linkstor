@@ -5,17 +5,18 @@ class controllerUser {
         include 'views/mainpage.html';
         include 'views/login.html';
         if ($_POST) {
-            $message = $_SESSION['user']->log_in($_POST['login'], $_POST['password']);
+            $user = new user();
+            $message = $user->log_in($_POST['login'], $_POST['password']);
             if ($message == 1){
                 $_SESSION['user_auth'] = true;
-                echo 'login success';
-                print_r($_SESSION['user']);
-                header('Location: /main');
+                print_r($_SESSION);
+                //header('Location: /main');
             }
             else{
                 echo $message;
             }
             return;
+
         }
     }
 
@@ -34,13 +35,25 @@ class controllerUser {
         }
     }
 
-    public function edit($id){
-        include 'views/mainmenu.html';
-        //include 'views/edituserform.html';
+    public function edit(){
+        //include 'views/mainmenu.html';
         $user = new user();
-        $user->getUserInfo($id);
+        echo 'new user ';
+        echo $_SESSION['user_id'];
+        $user->getUserInfo($_SESSION['user_id']);
+        echo 'get info ';
+        include 'views/edituserform.html';
+        echo 'view loaded ';
         if($_POST){
-
+            $user->edit($_POST);
+            $message = $user->update();
+            if ($message == 1){
+                return;
+            }
+            else{
+                echo $message;
+                return;
+            }
         }
     }
 }

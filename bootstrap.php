@@ -7,4 +7,3 @@ spl_autoload_register(function ($class){
 
 session_start();
 $_SESSION['db'] = dbConnect::connect( 'linkstor','admin', 'pass');
-$_SESSION['user'] = new user();
