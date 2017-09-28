@@ -3,26 +3,27 @@
 class controllerUser {
     public function login() {
         include 'views/mainpage.html';
-        include 'views/login.html';
+        //include 'views/login.html';
+        $_POST['login'] = 'user';
+        $_POST['password'] = 'pass';
         if ($_POST) {
             $user = new user();
             $message = $user->log_in($_POST['login'], $_POST['password']);
             if ($message == 1){
-                $_SESSION['user_auth'] = true;
                 print_r($_SESSION);
+                echo '<br/><a href = "/main">proceed</a>';
                 //header('Location: /main');
             }
             else{
                 echo $message;
             }
             return;
-
         }
     }
 
     public function register(){
         include 'views/mainpage.html';
-        include 'views/register.html';
+        //include 'views/register.html';
         if($_POST) {
             $message = $_SESSION['user']->register($_POST['login'], $_POST['email'], $_POST['pass'], $_POST['passRep'], $_POST['firstN'], $_POST['lastN']);
             if ($message == 1){

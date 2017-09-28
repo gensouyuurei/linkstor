@@ -1,5 +1,5 @@
 <?php
-include_once 'bootstrap.php';
+include 'bootstrap.php';
 
 $router = new router();
 $router->addRoute('', function (){ include 'views/startpage.html'; });

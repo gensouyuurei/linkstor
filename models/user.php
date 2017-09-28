@@ -9,7 +9,7 @@ class user{
         $this->info = array();
     }
 
-    public function showField($field){
+    public function showField($field, $item=0){
         if (isset($this->info[$field])) {
             return $this->info[$field];
         }
@@ -32,6 +32,18 @@ class user{
         return;
     }
 
+    public function getUserList($quantity, $offset){
+
+        $query = "SELECT * FROM users LIMIT $offset, $quantity";
+        $rawdata = $_SESSION['db']->query($query);
+
+        $i = 1;
+        foreach ($rawdata as $item){
+            $this->info[$i] = $item;
+            $i++;
+        }
+    }
+
     public function log_in($log, $passw){
 
         $query = "SELECT user_id, login, password FROM users";
@@ -41,13 +53,14 @@ class user{
                 $logincheck = true;
                 if ($item['password'] === $passw){
                     $passcheck = true;
-                    $id = $item['user_id'];
+                    $_SESSION['user_id'] = $item['user_id'];
+                    $_SESSION['user_auth'] = true;
                 }
             }
         }
 
         if (($logincheck == true) && ($passcheck == true)){
-            return $id;
+            return 1;
         }
         elseif (($logincheck != true)){
             return 'inclogin';

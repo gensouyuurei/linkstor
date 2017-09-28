@@ -1,4 +1,5 @@
 <?php
+
 class link{
 
     private $list;
@@ -8,8 +9,8 @@ class link{
         $this->list = array();
     }
 
-    public function get($locID, $field){
-        return $this->list[$locID][$field];
+    public function get($localID, $field){
+        return $this->list[$localID][$field];
     }
 
     public function edit($text){
@@ -20,7 +21,7 @@ class link{
     public function add($text){
 
         $dateadded = date("Y-m-d H:i:s");
-        $usrID = $_SESSION['user']->usrID;
+        $usrID = $_SESSION['user_id'];
         $query = "INSERT INTO links VALUES (NULL, '$usrID', '$text','$dateadded')";
         $catch = $_SESSION['db']->exec($query);
 
@@ -36,7 +37,7 @@ class link{
 
         $query = "SELECT * FROM links ";
         if ($is_all == false){
-            $query = $query."WHERE user_id=".$_SESSION['user']->getId()." ";
+            $query = $query."WHERE user_id=".$_SESSION['user_id']." ";
         }
         $query = $query."ORDER BY date_added DESC LIMIT $offset, $quantity";
         $rawdata = $_SESSION['db']->query($query);
