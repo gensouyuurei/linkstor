@@ -8,7 +8,7 @@ class dispatcher{
         $this->router = $rtr;
     }
 
-    public function handle(request $req){
+    public function handle(request $req, $parameters){
         $handler = $this->router->match($req);
         if (!$handler){
             echo "404";
@@ -16,12 +16,11 @@ class dispatcher{
         else{
             if (is_callable($handler) == true) {
 
-                if($req->getID() == 0) {
-                    call_user_func($handler);
-                }
-                else{
-                    call_user_func($handler, $req->getID());
-                }
+                $parameters['id'] = $req->getID();
+                $parameters['method'] = $req->getMethod();
+
+                call_user_func($handler, $parameters);
+
             }
             else{
                 echo 'is not callable';

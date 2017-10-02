@@ -1,11 +1,11 @@
 <?php
 
 class controllerUser {
-    public function login() {
-        include 'views/mainpage.html';
+    public static function login($parameters) {
+        //include 'views/mainpage.html';
         //include 'views/login.html';
-        $_POST['login'] = 'user';
-        $_POST['password'] = 'pass';
+        $parameters['content_type'] = 'login';
+        view::render($parameters);
         if ($_POST) {
             $user = new user();
             $message = $user->log_in($_POST['login'], $_POST['password']);
@@ -21,10 +21,12 @@ class controllerUser {
         }
     }
 
-    public function register(){
-        include 'views/mainpage.html';
+    public static function register($parameters){
+        //include 'views/mainpage.html';
         //include 'views/register.html';
-        if($_POST) {
+        $parameters['content_type'] = 'registration';
+        view::render($parameters);
+         if($_POST) {
             $message = $_SESSION['user']->register($_POST['login'], $_POST['email'], $_POST['pass'], $_POST['passRep'], $_POST['firstN'], $_POST['lastN']);
             if ($message == 1){
                 header('Location: /login');
@@ -36,15 +38,14 @@ class controllerUser {
         }
     }
 
-    public function edit(){
+    public static function edit($parameters){
         //include 'views/mainmenu.html';
+        $parameters['content_type'] = 'edituser';
         $user = new user();
-        echo 'new user ';
-        echo $_SESSION['user_id'];
         $user->getUserInfo($_SESSION['user_id']);
-        echo 'get info ';
-        include 'views/edituserform.html';
-        echo 'view loaded ';
+        $parameters['content'] = $user->get();
+        //include 'views/edituserform.html';
+        view::render($parameters);
         if($_POST){
             $user->edit($_POST);
             $message = $user->update();
@@ -59,5 +60,4 @@ class controllerUser {
     }
 }
 
-?>
 

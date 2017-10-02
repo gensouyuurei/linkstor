@@ -9,8 +9,14 @@ class link{
         $this->list = array();
     }
 
+    /*
     public function get($localID, $field){
         return $this->list[$localID][$field];
+    }
+    */
+
+    public function get(){
+        return $this->list;
     }
 
     public function edit($text){
@@ -87,4 +93,3 @@ class link{
         }
     }
 }
-?>

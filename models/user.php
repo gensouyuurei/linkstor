@@ -9,6 +9,10 @@ class user{
         $this->info = array();
     }
 
+    public function get(){
+        return $this->info;
+    }
+
     public function showField($field, $item=0){
         if (isset($this->info[$field])) {
             return $this->info[$field];
