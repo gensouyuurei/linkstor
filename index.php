@@ -10,13 +10,13 @@ $router->addRoute('main', 'controllerLink::mainpage');
 $router->addRoute('my_links', 'controllerLink::userLinks');
 $router->addRoute('link', 'controllerLink::singlelink');
 $router->addRoute('add', 'controllerLink::add');
+$router->addRoute('test','ControllerLink::fortesting');
 
 $uri = array();
 $uri = explode("/", $_SERVER['REQUEST_URI']);
 $req = new request($uri['1'], $uri['2'], 'get');
 
 $disp = new dispatcher($router);
-$disp->handle($req);
+$parameters = array();
+$disp->handle($req, $parameters);
 
-
-?>

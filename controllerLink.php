@@ -3,12 +3,12 @@
 class controllerLink{
     public static function mainpage($parameters){
         //include 'views/mainmenu.html';
-        $parameters['content_type'] = 'multlinks';
+        $parameters['content_type'] = 'MainPage';
         $links = new link();
         $links->pull(5,0);
         $parameters['content'] = $links->get();
-        view::render($parameters);
-        return;
+        $view = new view($parameters);
+        echo $view;
     }
 
     public static function userlinks($parameters){
@@ -69,6 +69,12 @@ class controllerLink{
         else{
             echo $message;
         }
+    }
+
+    public static function fortesting($parameters){
+        $parameters['cont_type'] = 'TestPage';
+        $view = new view($parameters);
+        echo $view;
     }
 
 
