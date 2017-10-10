@@ -18,6 +18,7 @@ class dispatcher{
 
                 $parameters['id'] = $req->getID();
                 $parameters['method'] = $req->getMethod();
+                $parameters['uri'] = $req->getPath();
 
                 call_user_func($handler, $parameters);
 

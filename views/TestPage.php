@@ -3,26 +3,21 @@
 class TestPage extends view{
 
     public function __construct($par){
-        $this->content = $par;
-    }
-
-    public static function make($par){
-        return new TestPage($par);
+        parent::__construct($par);
     }
 
     public function render(){
         //ob_start();
-        //super::render
+
+        $head = parent::render();
 
         $html = '<a href="/main">Main</a> | ';
         $html .= 'Testpage</br>';
-        $html .= '<p>'.$this->content.'</p></br>%s';
+        $html .= '<p>'.$this->content.'</p></br>';
 
-        $foot = new Footer();
+        $page = sprintf($head, 'Test page', $html);
 
-        $final = sprintf($html, $foot);
-
-        return $final;
+        return $page;
 
     }
 }

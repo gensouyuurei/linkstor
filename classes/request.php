@@ -5,10 +5,10 @@ class request {
     private $id;
     private $method;
 
-    function __construct($path, $id=0, $method){
+    function __construct($uri, $method){
         $this->method = $method;
-        $this->id = $id;
-        $this->path = $path;
+        $this->path = $uri['1'];
+        $this->id = [$uri['2'] => $uri['3']];
     }
 
     public function getPath(){

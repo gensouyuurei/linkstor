@@ -14,7 +14,7 @@ $router->addRoute('test','ControllerLink::fortesting');
 
 $uri = array();
 $uri = explode("/", $_SERVER['REQUEST_URI']);
-$req = new request($uri['1'], $uri['2'], 'get');
+$req = new request($uri, 'get');
 
 $disp = new dispatcher($router);
 $parameters = array();

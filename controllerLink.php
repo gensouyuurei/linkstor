@@ -2,33 +2,30 @@
 
 class controllerLink{
     public static function mainpage($parameters){
-        //include 'views/mainmenu.html';
-        $parameters['content_type'] = 'MainPage';
         $links = new link();
-        $links->pull(5,0);
+        $links->pull(5,($parameters['id']['page']-1)*5);
         $parameters['content'] = $links->get();
-        $view = new view($parameters);
+        $parameters['highlight'] = 1;
+        $view = new MainPage($parameters);
         echo $view;
     }
 
     public static function userlinks($parameters){
-        //include 'views/mainmenu.html';
-        $parameters['content_type'] = 'userlinks';
         $links = new link();
         $links->pull(5, 0, false);
         $parameters['content'] = $links->get();
-        view::render($parameters);
-        return;
+        $parameters['highlight'] = 2;
+        $view = new MainPage($parameters);
+        echo $view;
     }
 
     public static function singlelink($parameters){
-        //include 'views/mainmenu.html';
-        $parameters['content_type'] = 'singlelink';
         $links = new link();
-        $links->pullByID($parameters['id']);
+        $links->pullByID($parameters['id']['link']);
         $parameters['content'] = $links->get();
-        view::render($parameters);
-        return;
+        $parameters['highlight'] = 0;
+        $view = new MainPage($parameters);
+        echo $view;
     }
 
     public static function add($parameters){
@@ -72,8 +69,8 @@ class controllerLink{
     }
 
     public static function fortesting($parameters){
-        $parameters['cont_type'] = 'TestPage';
-        $view = new view($parameters);
+        //$parameters['cont_type'] = 'TestPage';
+        $view = new TestPage($parameters);
         echo $view;
     }
 

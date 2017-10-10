@@ -9,8 +9,8 @@ class router{
     }
 
     public function match(request $req){
+
         $path = $req->getPath();
-        $id = $req->getID();
 
         foreach ($this->routes as $pattern => $handler) {
             if ($pattern === $path) {
